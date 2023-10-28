@@ -15,7 +15,7 @@ class CreateSamplesTable extends Migration
     {
         Schema::create('samples', function (Blueprint $table) {
             $table->id(); // Colonne 'id' (clé primaire)
-            $table->unsignedBigInteger('id_utilisateur'); // Colonne 'id_utilisateur' (clé étrangère)
+            $table->unsignedBigInteger('id_utilisateur'); 
             $table->string('titre');
             $table->string('compositeur');
             $table->text('description');
@@ -23,11 +23,12 @@ class CreateSamplesTable extends Migration
             $table->string('cle_musical');
             $table->integer('bpm');
             $table->string('genre');
+            $table->string('genre');
             $table->timestamp('date');
-            $table->timestamps(); // Ajouter les colonnes 'created_at' et 'updated_at'
+            $table->timestamps(); 
         });
 
-        // Ajouter une clé étrangère pour 'id_utilisateur' si nécessaire
+        
         Schema::table('samples', function (Blueprint $table) {
             $table->foreign('id_utilisateur')->references('id')->on('users');
         });

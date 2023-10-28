@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-lg-2">
-        <a class="button" href="{{ url('sample/create') }}">Ajouter un sample</a>
+        <a class="button btn-success" href="{{ url('sample/create') }}">Ajouter un sample</a>
     </div>
 </div>
 

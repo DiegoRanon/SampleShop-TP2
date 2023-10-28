@@ -61,7 +61,7 @@
     </div>
 
     <div class="form-group mb-3">
-        
+
     <input type="hidden" class="form-control" id="current_date" name="current_date">
     </div>
 

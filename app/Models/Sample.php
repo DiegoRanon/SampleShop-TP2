@@ -24,6 +24,7 @@ class Sample extends Model
         'cle_musical',
         'bpm',
         'genre',
+        //'photo',
         'date'
     ];
 }
