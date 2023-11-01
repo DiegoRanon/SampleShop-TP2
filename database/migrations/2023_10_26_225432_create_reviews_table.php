@@ -23,7 +23,6 @@ class CreateReviewsTable extends Migration
             $table->timestamps(); // Ajouter les colonnes 'created_at' et 'updated_at'
         });
 
-        // Ajouter une clé étrangère pour 'id_sample' si nécessaire
         Schema::table('reviews', function (Blueprint $table) {
             $table->foreign('id_sample')->references('id')->on('samples');
         });

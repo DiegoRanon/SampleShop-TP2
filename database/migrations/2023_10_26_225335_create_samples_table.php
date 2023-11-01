@@ -23,7 +23,7 @@ class CreateSamplesTable extends Migration
             $table->string('cle_musical');
             $table->integer('bpm');
             $table->string('genre');
-            $table->string('genre');
+            $table->string('photo');
             $table->timestamp('date');
             $table->timestamps(); 
         });
