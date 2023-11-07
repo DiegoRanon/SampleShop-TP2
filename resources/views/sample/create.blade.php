@@ -14,18 +14,13 @@
     </div>
 @endif
 
-<script>
-    const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split('T')[0];
-    document.getElementById('current_date').value = formattedDate;
-</script>
 
 <form action="{{ url('sample') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="form-group mb-3">
-        <label for="title">Titre:</label>
-        <input type="text" class="form-control" id="title" placeholder="Entrez un titre" name="title">
+        <label for="titre">Titre:</label>
+        <input type="text" class="form-control" id="titre" placeholder="Entrez un titre" name="titre">
     </div>
     <div class="form-group mb-3">
         <label for="compositeur">Nom du compositeur:</label>
@@ -45,8 +40,8 @@
         <input type="text" class="form-control" id="cle_musical" placeholder="Entrez la clé musicale" name="cle_musical">
     </div>
     <div class="form-group mb-3">
-        <label for="number">Entrez le BPM :</label>
-        <input type="number" class="form-control" id="number" placeholder="Entrez le bpm : " name="number">
+        <label for="bpm">Entrez le BPM :</label>
+        <input type="number" class="form-control" id="bpm" placeholder="Entrez le bpm : " name="bpm">
     </div>
     <div class="form-group mb-3">
         <label for="genre">Genre :</label>
@@ -62,8 +57,12 @@
 
     <div class="form-group mb-3">
 
-    <input type="hidden" class="form-control" id="current_date" name="current_date">
-    </div>
+            <label for="description">Description:</label>
+            <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+
+        </div>
+
+    <div class="form-group mb-3">
 
     <input type="file" name="photo">
     <button type="submit" class="btn btn-primary">Enregister</button>

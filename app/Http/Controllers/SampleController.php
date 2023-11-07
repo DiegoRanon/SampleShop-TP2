@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Sample;
+use Illuminate\Support\Carbon;
 
 class SampleController extends Controller
 {
@@ -12,7 +14,7 @@ class SampleController extends Controller
     public function index()
     {
         $samples = Sample::all();
-        return view('sample.index', compact('samples'));
+        return view('sample.index',compact('samples'));
     }
 
 
@@ -26,27 +28,36 @@ class SampleController extends Controller
     {
 
         $request->validate([
-            // 'id_utilisateur' => 'required',
             'titre' => 'required',
             'compositeur' => 'required',
             'description' => 'required',
             'category' => 'required',
             'cle_musical' => 'required',
             'bpm' => 'required',
-            'genre' => 'required',
-            //'photo' => 'required'
-            // 'date' => 'required'
+            'genre' => 'required'
         ]);
 
-        Sample::create($request->all());
+        $sample = new Sample([
+            'user_id' => Auth::user()->id,
+            'titre' => $request->get('titre'),
+            'compositeur' => $request->get('compositeur'),
+            'description' => $request->get('description'),
+            'category' => $request->get('category'),
+            'cle_musical' => $request->get('cle_musical'),
+            'bpm' => $request->get('bpm'),
+            'genre' => $request->get('genre'),
+            'date' => Carbon::now()
+        ]);
 
-        return redirect()->route('sample.index');
+        $sample->save();
+
+        return redirect('/')->with('success', 'Sample ajouté avec succès');
     }
 
 
     public function show($id)
     {
-        $sample = Sample::find($id);
+        $sample = Sample::findOrFail($id);
         return view('sample.show', compact('sample'));
     }
 
@@ -60,25 +71,31 @@ class SampleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $sample = Sample::find($id);
+        $sample = Sample::findOrFail($id);
 
         $request->validate([
-            // 'id_utilisateur' => 'required'
             'titre' => 'required',
             'compositeur' => 'required',
             'description' => 'required',
             'category' => 'required',
             'cle_musical' => 'required',
             'bpm' => 'required',
-            'genre' => 'required',
-            //'photo' => 'required'
-            // 'date' => 'required'
+            'genre' => 'required'
         ]);
 
-        $sample->update($request->all());
+        $sample->titre = $request->input('titre');
+        $sample->compositeur = $request->input('compositeur');
+        $sample->description = $request->input('description');
+        $sample->category = $request->input('category');
+        $sample->cle_musical = $request->input('cle_musical');
+        $sample->bpm = $request->input('bpm');
+        $sample->genre = $request->input('genre');
 
-        return redirect()->route('samples.index');
+        $sample->update();
+
+        return redirect('/')->with('success', 'Sample modifié avec succès');
     }
+
 
 
     public function destroy($id)
@@ -86,7 +103,7 @@ class SampleController extends Controller
         $sample = Sample::find($id);
         $sample->delete();
 
-        return redirect()->route('samples.index');
+        return redirect()->route('sample.index');
     }
 }
 
