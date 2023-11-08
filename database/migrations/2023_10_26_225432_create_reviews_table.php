@@ -19,7 +19,6 @@ class CreateReviewsTable extends Migration
             $table->integer('nb_etoiles');
             $table->text('commentaire');
             $table->string('identifiant');
-            $table->boolean('efface')->default(false);
             $table->timestamps(); // Ajouter les colonnes 'created_at' et 'updated_at'
         });
 

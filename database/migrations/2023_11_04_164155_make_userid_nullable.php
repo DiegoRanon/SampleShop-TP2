@@ -16,6 +16,10 @@ class MakeUseridNullable extends Migration
         Schema::table('samples', function (Blueprint $table) {
             $table->unsignedBigInteger('id_utilisateur')->nullable()->change();
         });
+
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_utilisateur')->nullable()->change();
+        });
     }
 
     /**
@@ -27,6 +31,10 @@ class MakeUseridNullable extends Migration
     {
         Schema::table('samples', function (Blueprint $table) {
             $table->unsignedBigInteger('id_utilisateur')->change();
+        });
+
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_utilisateur')->nullable()->change();
         });
     }
 }

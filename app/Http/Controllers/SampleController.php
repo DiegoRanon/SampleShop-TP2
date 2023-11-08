@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Sample;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\User;
+use App\Models\Review;
 
 class SampleController extends Controller
 {
@@ -14,7 +18,7 @@ class SampleController extends Controller
     public function index()
     {
         $samples = Sample::all();
-        return view('sample.index',compact('samples'));
+        return view('sample.index', compact('samples'));
     }
 
 
@@ -26,21 +30,22 @@ class SampleController extends Controller
 
     public function store(Request $request)
     {
+        $user = User::find(auth()->id());
+
 
         $request->validate([
             'titre' => 'required',
-            'compositeur' => 'required',
             'description' => 'required',
             'category' => 'required',
             'cle_musical' => 'required',
             'bpm' => 'required',
             'genre' => 'required'
         ]);
-
+    
         $sample = new Sample([
-            'user_id' => Auth::user()->id,
+            'id_utilisateur' => Auth::user()->id,
             'titre' => $request->get('titre'),
-            'compositeur' => $request->get('compositeur'),
+            'compositeur' => $user->name,
             'description' => $request->get('description'),
             'category' => $request->get('category'),
             'cle_musical' => $request->get('cle_musical'),
@@ -57,15 +62,20 @@ class SampleController extends Controller
 
     public function show($id)
     {
-        $sample = Sample::findOrFail($id);
-        return view('sample.show', compact('sample'));
+        $sample = Sample::find($id);
+        return view('sample.show', ['sample' => $sample]);
     }
 
 
     public function edit($id)
     {
         $sample = Sample::find($id);
+        if (Gate::denies('edit-sample', $sample)) {
+            throw new AuthorizationException('You are not authorized to edit this sample.');
+        }
+    
         return view('sample.edit', compact('sample'));
+
     }
 
 
@@ -75,7 +85,6 @@ class SampleController extends Controller
 
         $request->validate([
             'titre' => 'required',
-            'compositeur' => 'required',
             'description' => 'required',
             'category' => 'required',
             'cle_musical' => 'required',
@@ -84,7 +93,6 @@ class SampleController extends Controller
         ]);
 
         $sample->titre = $request->input('titre');
-        $sample->compositeur = $request->input('compositeur');
         $sample->description = $request->input('description');
         $sample->category = $request->input('category');
         $sample->cle_musical = $request->input('cle_musical');
@@ -101,6 +109,17 @@ class SampleController extends Controller
     public function destroy($id)
     {
         $sample = Sample::find($id);
+        $reviews = Review::where('id_sample', $sample->id)->get();
+
+
+        if (Gate::denies('edit-sample', $sample)) {
+            throw new AuthorizationException('You are not authorized to delete this sample.');
+        }
+
+        foreach ($reviews as $review) {
+            $review->delete();
+        }
+        
         $sample->delete();
 
         return redirect()->route('sample.index');

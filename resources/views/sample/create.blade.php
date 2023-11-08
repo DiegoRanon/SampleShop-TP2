@@ -23,10 +23,6 @@
         <input type="text" class="form-control" id="titre" placeholder="Entrez un titre" name="titre">
     </div>
     <div class="form-group mb-3">
-        <label for="compositeur">Nom du compositeur:</label>
-        <input type="text" class="form-control" id="compositeur" placeholder="Entrez un le nom du compositeur" name="compositeur">
-    </div>
-    <div class="form-group mb-3">
         <label for="category">Categorie :</label>
         <select class="form-control" id="category" name="category">
             <option value="guitar">Guitar</option>

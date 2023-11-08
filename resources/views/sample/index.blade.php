@@ -26,7 +26,9 @@
                 <a href="{{ url('sample/'. $sample->id) }}">
                     <h2>{{ $sample->titre }}</h2>
                 </a>
-                {{ $sample->description }}
+                <p>Fait par : {{ $sample->compositeur }}</p>
+                <p>Genre : {{ $sample->genre }}</p>
+                <p>BPM : {{ $sample->bpm }}</p>
                 <div></div>
                 <a href="{{ url('sample/'. $sample->id) }}" class="en-savoir-plus">En savoir plus</a>
             </div>
