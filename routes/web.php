@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\LocalizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,9 @@ Route::get('/apropos', function () {
 Route::controller(ReviewController::class)->group(function () {
   Route::get('/review/create/{id}',  [ReviewController::class, 'create'])->name('review.create');
   Route::get('/review/show/{id}', [ReviewController::class, 'show'])->name('review.show');
-  Route::patch('/review/edit/{id}', [ReviewController::class, 'update'])->name('review.update');
-  Route::post('/review/store/{id}', 'store');
+  Route::get('/review/{id}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+  Route::patch('/review/{id}', [ReviewController::class, 'update'])->name('review.update');
+  Route::post('/review/store/{id}', [ReviewController::class, 'store'])->name('review.store');
   Route::delete('/review/{id}', 'destroy');
 });
 
@@ -49,6 +51,7 @@ Route::get('/dashboard', function () {
   return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index'])->name('locale.index');
 
 Auth::routes();
 

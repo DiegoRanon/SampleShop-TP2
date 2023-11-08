@@ -3,12 +3,12 @@
 @section('content')
 
 <div class="header">
-    <h1>Mon premier blog avec Laravel</h1>
+    <h1>@lang('messages.titreAccueil')</h1>
 </div>
 
 <div class="row">
     <div class="col-lg-2">
-        <a class="button btn-success" href="{{ url('sample/create') }}">Ajouter un sample</a>
+        <a class="button btn-success" href="{{ url('sample/create') }}">@lang("messages.ajoutersample")</a>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
                 <a href="{{ url('sample/'. $sample->id) }}">
                     <h2>{{ $sample->titre }}</h2>
                 </a>
-                <p>Fait par : {{ $sample->compositeur }}</p>
+                <p>@lang("messages.faitpar") : {{ $sample->compositeur }}</p>
                 <p>Genre : {{ $sample->genre }}</p>
                 <p>BPM : {{ $sample->bpm }}</p>
                 <div></div>

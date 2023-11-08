@@ -15,7 +15,7 @@
             <p>Commentaire : {{ $review->commentaire }}</p>
             <div class="buttons">
                 <a href="{{ url('review/'. $review->id .'/edit') }}" class="btn btn-info">Modifier</a>
-                <form action="{{ url('sample/'. $review->id) }}" method="POST" style="display: inline">
+                <form action="{{ url('review/'. $review->id) }}" method="POST" style="display: inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Supprimer</button>

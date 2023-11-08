@@ -18,7 +18,8 @@ class Review extends Model
         'nb_etoiles',
         'commentaire',
         'identifiant',
-        'efface'
+        'efface',
+        'id_utilisateur'
     ];
 }
 

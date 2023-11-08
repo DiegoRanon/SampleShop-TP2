@@ -14,10 +14,19 @@
 
             <div class="card card-body">
             <h4><strong>BPM : </strong>{{ $sample->bpm }}</h4>
-            <p><strong>Categorie : </strong>{{ $sample->category }}</p>
-            <p><strong>Clé musical : </strong>{{ $sample->cle_musical}}</p>
+            <p><strong>@lang("messages.categorie") : </strong>{{ $sample->category }}</p>
+            <p><strong>@lang("messages.clemusical") : </strong>{{ $sample->cle_musical}}</p>
             <p><strong>Genre : </strong>{{ $sample->genre}}</p>
             </div>
+
+            <div class="card card-body">
+            <h4><strong>@lang("messages.music"):</strong></h4>
+                <audio controls>
+                    <source src="{{ asset('storage/' . $sample->music) }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <img src="{{ asset( 'storage/' . $sample->photo ) }}" alt="Uploaded Image">
 
             <div class="buttons">
                 <a href="{{ url('sample/'. $sample->id .'/edit') }}" class="btn btn-info">Modifier</a>
@@ -28,7 +37,7 @@
                 </form>
 
             </div>
-
+            <br>
             <div class="buttons">
                 <a href="{{ url('review/show/'. $sample->id) }}" class="btn btn-info">Reviews</a>
             </div>

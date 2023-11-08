@@ -16,7 +16,7 @@
 
     @endif
 
-    <form method="post" action="{{ route('review.update', ['id' => $review->id]) }}" enctype="multipart/form-data">
+    <form method="post" action="{{ url('review/'. $review->id) }}" enctype="multipart/form-data">
         @method('PATCH')
         @csrf
 

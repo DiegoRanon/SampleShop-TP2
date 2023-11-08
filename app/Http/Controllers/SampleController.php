@@ -39,8 +39,12 @@ class SampleController extends Controller
             'category' => 'required',
             'cle_musical' => 'required',
             'bpm' => 'required',
-            'genre' => 'required'
+            'genre' => 'required',
+            'photo' => ['required','mimes:jpg,png,jpeg,gif,svg'],
+            'music' => ['required', 'mimes:mp3,wav']
         ]);
+
+        
     
         $sample = new Sample([
             'id_utilisateur' => Auth::user()->id,
@@ -54,6 +58,27 @@ class SampleController extends Controller
             'date' => Carbon::now()
         ]);
 
+        // Image
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/images', $fileName);
+    
+            $sample->photo = 'images/' . $fileName;
+        } else {
+            dd("photo doesn't work");
+        }
+        // Audio
+        if ($request->hasFile('music')) {
+            $file = $request->file('music');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/musiques', $fileName);
+    
+            $sample->music = 'musiques/' . $fileName;
+        } else {
+            dd("music doesn't work");
+        }
+    
         $sample->save();
 
         return redirect('/')->with('success', 'Sample ajouté avec succès');
@@ -89,7 +114,8 @@ class SampleController extends Controller
             'category' => 'required',
             'cle_musical' => 'required',
             'bpm' => 'required',
-            'genre' => 'required'
+            'genre' => 'required',
+            'photo' => ['required','mimes:jpg,png,jpeg,gif,svg']
         ]);
 
         $sample->titre = $request->input('titre');
@@ -98,6 +124,19 @@ class SampleController extends Controller
         $sample->cle_musical = $request->input('cle_musical');
         $sample->bpm = $request->input('bpm');
         $sample->genre = $request->input('genre');
+
+        // Image
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/images', $fileName);
+    
+            $sample->photo = 'images/' . $fileName;
+        } else {
+            dd("photo doesn't work");
+        }
+
+
 
         $sample->update();
 

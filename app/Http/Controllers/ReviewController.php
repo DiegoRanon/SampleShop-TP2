@@ -39,13 +39,12 @@ class ReviewController extends Controller
         $userId = auth()->id();
         $sampleId = $id;
         $user = User::find($userId);
-
         $review = Review::create([ 
             'id_sample'=> $sampleId,
-            'id_utilisateur'=> $userId,
             'nb_etoiles'=>$request->get('nb_etoiles'),
             'commentaire'=> $request->get('commentaire'),
-            'identifiant'=> $user->name
+            'identifiant'=> $user->name,
+            'id_utilisateur'=> $userId
         ]);
 
         $review->save();
@@ -72,6 +71,11 @@ class ReviewController extends Controller
     public function edit($id)
     {
         $review = Review::find($id);
+        
+        if (Gate::denies('edit-review', $review)) {
+            throw new AuthorizationException('You are not authorized to edit this review.');
+        }
+
         return view('review.edit', compact('review'));
     }
 
@@ -85,16 +89,13 @@ class ReviewController extends Controller
         }
 
         $request->validate([
-            'id_sample' => 'required',
             'nb_etoiles' => 'required',
-            'commentaire' => 'required',
-            'identifiant' => 'required',
-            'efface' => 'required',
+            'commentaire' => 'required'
         ]);
 
         $review->update($request->all());
 
-        return redirect()->route('review.index');
+        return redirect()->route('sample.index');
     }
 
 
@@ -106,7 +107,7 @@ class ReviewController extends Controller
         }
         $review->delete();
 
-        return redirect()->route('review.index');
+        return redirect()->route('sample.index');
     }
 }
 
